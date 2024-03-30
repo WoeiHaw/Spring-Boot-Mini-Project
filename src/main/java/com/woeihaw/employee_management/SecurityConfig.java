@@ -31,10 +31,8 @@ public class SecurityConfig {
                 .username("user")
                 .password("password")
                 .roles("USER")
-                .username("user2")
-                .password("1234")
-                .roles("USER")
                 .build();
+
 
         return new InMemoryUserDetailsManager(userDetails);
     }
