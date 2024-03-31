@@ -107,7 +107,7 @@ public abstract class AuditorEntity {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("logging\\"+ LocalDate.now()+".txt", true));
             BufferedWriter out = new BufferedWriter(writer);
-            out.write("\n"+loginMessage);
+            out.write(loginMessage+"\n");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
