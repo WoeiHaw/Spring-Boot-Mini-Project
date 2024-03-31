@@ -132,9 +132,6 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/search")
-    public String searchEmployee(){
-        return "/search";
-    }
+
 
 }

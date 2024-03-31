@@ -16,7 +16,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+logging.dir
 ### IntelliJ IDEA ###
 .idea
 *.iws

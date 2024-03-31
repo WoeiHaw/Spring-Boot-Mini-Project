@@ -5,3 +5,5 @@
 2024-03-31T19:24:20.201447800: Create on department table
 2024-03-31T19:24:40.315742: Update on department table
 2024-03-31T19:40:51.994840900: Update on department table
+2024-03-31T21:07:15.333914200: Update on employee table
+2024-03-31T23:07:01.522595100: Update on employee table
