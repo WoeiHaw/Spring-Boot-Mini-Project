@@ -20,7 +20,7 @@ repositories {
 ext['spring-security.version']='6.2.3'
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.6'
+	implementation 'org.hibernate:hibernate-envers:6.2.4.Final'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 	implementation "org.springframework.boot:spring-boot-starter-security"
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

@@ -1,0 +1,7 @@
+
+2024-03-31T19:15:52.997333800: Delete in employee table
+2024-03-31T19:16:12.768066200: Create on project table
+2024-03-31T19:16:48.233928300: Create on employee table
+2024-03-31T19:24:20.201447800: Create on department table
+2024-03-31T19:24:40.315742: Update on department table
+2024-03-31T19:40:51.994840900: Update on department table

@@ -25,14 +25,9 @@ public class EmployeeController {
 
     @GetMapping({"","/"})
     public String showEmployeeList(Model model){
+
         List<Employee> employees = empRepo.findAll();
-
-
-
-
         model.addAttribute("employees",employees);
-
-
         return "list/employee";
     }
 
@@ -42,6 +37,7 @@ public class EmployeeController {
         List<Department> departments = depRepo.findAll();
         model.addAttribute("employeeDto",employeeDto);
         model.addAttribute("departments",departments);
+
         return "create/CreateEmployee";
     }
 
@@ -69,6 +65,7 @@ public class EmployeeController {
 
     @GetMapping("/edit")
     public String showEditPage(Model model, @RequestParam int id){
+
         try{
             Employee employee = empRepo.findById(id).get();
             List<Department> departments = depRepo.findAll();
@@ -86,6 +83,7 @@ public class EmployeeController {
             System.out.println("Exception: " + e.getMessage());
             return "redirect:/employee";
         }
+
         return "edit/EditEmployee";
     }
     @PostMapping("/edit")
@@ -98,17 +96,19 @@ public class EmployeeController {
         try{
             Employee employee = empRepo.findById(id).get();
 //            model.addAttribute("employee",employee);
+
             if(result.hasErrors()){
                 List<Department> departments = depRepo.findAll();
 
                 model.addAttribute("departments",departments);
-                System.out.println(employeeDto.getId());
+
                 return "edit/EditEmployee";
             }
             employee.setName(employeeDto.getName());
             employee.setPosition(employeeDto.getPosition());
             employee.setDepartment(employeeDto.getDepartment());
             empRepo.save(employee);
+
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());
         }
@@ -131,4 +131,10 @@ public class EmployeeController {
         return "redirect:/employee";
 
     }
+
+    @GetMapping("/search")
+    public String searchEmployee(){
+        return "/search";
+    }
+
 }
