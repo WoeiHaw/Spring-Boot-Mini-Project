@@ -51,8 +51,9 @@ public class SearchEmployeeController {
 
             return "search/ShowSearchEmployeeById";
         }catch (NoSuchElementException e){
-
+            String message = "ID no exist";
             System.out.println(e.getMessage());
+            model.addAttribute("message", message);
             return "/search/id";
 
         }
@@ -79,6 +80,10 @@ public class SearchEmployeeController {
             model.addAttribute("employees",employees);
             if (employees.size() != 0){
                 return "search/ShowSearchEmployee";
+            }else {
+                String message = "Employee no found";
+                model.addAttribute("message",message);
+                return "search/name";
             }
 
         }catch (NoSuchElementException e){
@@ -112,8 +117,12 @@ public class SearchEmployeeController {
             model.addAttribute("employees",employees);
             if (employees.size()!=0){
                 return "search/ShowSearchEmployee";
-            }
+            }else{
+                String message = "No employee belong to this position";
+                model.addAttribute("message",message);
+                return "/search/position";
 
+            }
         }catch (NoSuchElementException e){
 
             System.out.println(e.getMessage());
@@ -146,8 +155,14 @@ public class SearchEmployeeController {
             model.addAttribute("employees",employees);
             if (employees.size()!=0){
                 return "search/ShowSearchEmployee";
-            }
+            }else{
+                String message = "No employee belong to this department";
+                List<Department> departments = departRepo.findAll();
+                model.addAttribute("message",message);
+                model.addAttribute("departments",departments);
+                return "/search/department";
 
+            }
         }catch (NoSuchElementException e){
 
             System.out.println(e.getMessage());
@@ -155,6 +170,7 @@ public class SearchEmployeeController {
 
         }
         List<Department> departments = departRepo.findAll();
+
         model.addAttribute("departments",departments);
         return "/search/department";
 

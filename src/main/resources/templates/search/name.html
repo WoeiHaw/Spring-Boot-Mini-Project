@@ -13,7 +13,7 @@
       <div class="col-sm-8 text-center">
         <input class="form-control" type="text" placeholder="Please Enter Employee Name" th:field="${searchEmployeeByNameDto.name}">
         <p th:if = "${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="${searchEmployeeByNameDto.name}"></p>
-
+        <p  style="color:red;" th:text="${message}"></p>
       </div>
 
       <div class="row mb-3">

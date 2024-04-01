@@ -13,6 +13,7 @@
             <div class="col-sm-8 text-center">
                 <input class="form-control" type="text" placeholder="Please Enter Position" th:field="${searchEmployeeByPositionDto.position}">
                 <p th:if = "${#fields.hasErrors('position')}" th:errorclass="text-danger" th:errors="${searchEmployeeByPositionDto.position}"></p>
+                <p  style="color:red;" th:text="${message}"></p>
 
             </div>
 

@@ -12,6 +12,7 @@
         <form method="post" enctype="multipart/form-data" th:object="${searchEmployeeByIdDto}">
           <div class="col-sm-8 text-center">
             <input class="form-control" type="number" min="1" step="1"placeholder="Please Enter Employee ID" th:field="${searchEmployeeByIdDto.id}">
+            <p  style="color:red;" th:text="${message}"></p>
           </div>
 
           <div class="row mb-3">

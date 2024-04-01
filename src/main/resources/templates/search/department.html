@@ -16,6 +16,7 @@
           <select th:field="${searchEmployeeByDepartmentDto.department}">
             <option th:each="department : ${departments}" th:value="${department.departmentId}" th:text="${department.departmentName}"></option>
           </select>
+          <p  style="color:red;" th:text="${message}"></p>
 
         </div>
 
