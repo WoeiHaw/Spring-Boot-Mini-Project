@@ -4,8 +4,8 @@
    ![image](https://github.com/WoeiHaw/Spring-Boot-Mini-Project/assets/138196424/f224beab-c78e-4afc-bbea-083bb1df3082)
 4. Open your browser and go to "http://localhost:8080/"
 5. The login deatail are as below
-   Username : user
-   Password : password
+      Username : user
+      Password : password
 6.If all the tables are empty, please follow the step below to insert data
-   Create Department > Create Employee > Create Project
+      Create Department > Create Employee > Create Project
 
