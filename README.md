@@ -8,4 +8,4 @@
       Password : password  
 6. If all the tables are empty, please follow the step below to insert data  
       Create Department > Create Employee > Create Project  
-
+7. The logging record for each day is store in logging folder.
