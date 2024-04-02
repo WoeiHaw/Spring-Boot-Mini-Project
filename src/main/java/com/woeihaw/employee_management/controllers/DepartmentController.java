@@ -2,7 +2,7 @@ package com.woeihaw.employee_management.controllers;
 
 import com.woeihaw.employee_management.models.Department;
 import com.woeihaw.employee_management.models.DepartmentDto;
-import com.woeihaw.employee_management.services.DepartmentRepository;
+import com.woeihaw.employee_management.service.DepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,11 @@ import java.util.List;
 @RequestMapping("/department")
 public class DepartmentController {
     @Autowired
-    private DepartmentRepository repo;
+    private DepartmentService service;
 
     @GetMapping({"","/"})
     public String showDepartment(Model model){
-        List<Department> departments = repo.findAll();
+        List<Department> departments =service.findAllDepartment();
         model.addAttribute("departments",departments);
         return "list/department";
 
@@ -43,7 +43,7 @@ public class DepartmentController {
        }
        Department department = new Department();
        department.setDepartmentName(departmentDto.getDepartmentName());
-       repo.save(department);
+       service.saveDepartment(department);
        return "redirect:/department";
 
     }
@@ -51,7 +51,7 @@ public class DepartmentController {
     public String editDepartment(Model model, @RequestParam int id){
         try{
 
-            Department department = repo.findById(id).get();
+            Department department = service.findDepartmentById(id);
             model.addAttribute("department",department);
 
             DepartmentDto departmentDto = new DepartmentDto();
@@ -76,14 +76,14 @@ public class DepartmentController {
 
     ){
         try{
-            Department department = repo.findById(id).get();
+            Department department = service.findDepartmentById(id);
 //            model.addAttribute("department",department);
             if(result.hasErrors()){
                 departmentDto.setDepartmentId(department.getDepartmentId());
                 return "edit/EditDepartment";
             }
             department.setDepartmentName(departmentDto.getDepartmentName());
-            repo.save(department);
+            service.saveDepartment(department);
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());
         }
@@ -95,8 +95,8 @@ public class DepartmentController {
             @RequestParam int id
     ){
         try{
-            Department department = repo.findById(id).get();
-            repo.delete(department);
+            Department department = service.findDepartmentById(id);
+            service.deleteDepartment(department);
 
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());

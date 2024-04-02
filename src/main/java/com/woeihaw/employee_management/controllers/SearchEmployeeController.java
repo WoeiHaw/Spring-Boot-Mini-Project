@@ -1,8 +1,8 @@
 package com.woeihaw.employee_management.controllers;
 
 import com.woeihaw.employee_management.models.*;
-import com.woeihaw.employee_management.services.DepartmentRepository;
-import com.woeihaw.employee_management.services.EmployeeRepository;
+import com.woeihaw.employee_management.service.DepartmentService;
+import com.woeihaw.employee_management.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,10 +21,9 @@ import java.util.NoSuchElementException;
 public class SearchEmployeeController {
 
     @Autowired
-    EmployeeRepository repo ;
-
+    private DepartmentService depService;
     @Autowired
-    DepartmentRepository departRepo;
+    private EmployeeService empService ;
     @GetMapping({"","/"})
     public String searchEmployee(){
         return "/search/index";
@@ -45,8 +44,8 @@ public class SearchEmployeeController {
             return "search/id";
         }
         try{
-            Employee employee = repo.findById(searchEmployeeByIdDto.getId()).get();
-            System.out.println(employee.getDepartment());
+
+            Employee employee = empService.findEmployeeById(searchEmployeeByIdDto.getId());
             model.addAttribute("employee",employee);
 
             return "search/ShowSearchEmployeeById";
@@ -76,7 +75,8 @@ public class SearchEmployeeController {
             return "search/name";
         }
         try{
-            List<Employee> employees = repo.findByName(searchEmployeeByNameDto.getName());
+
+            List<Employee> employees = empService.findEmployeeByName(searchEmployeeByNameDto.getName());
             model.addAttribute("employees",employees);
             if (employees.size() != 0){
                 return "search/ShowSearchEmployee";
@@ -113,7 +113,7 @@ public class SearchEmployeeController {
 
         }
         try{
-            List<Employee> employees = repo.findByPosition(searchEmployeeByPositionDto.getPosition());
+            List<Employee> employees =  empService.findEmployeeByPosition(searchEmployeeByPositionDto.getPosition());
             model.addAttribute("employees",employees);
             if (employees.size()!=0){
                 return "search/ShowSearchEmployee";
@@ -133,7 +133,7 @@ public class SearchEmployeeController {
     }
     @GetMapping("/department")
     public String showDepartmentSearchPage(Model model){
-        List<Department> departments = departRepo.findAll();
+        List<Department> departments = depService.findAllDepartment();
         SearchEmployeeByDepartmentDto searchEmployeeByDepartmentDto = new SearchEmployeeByDepartmentDto();
         model.addAttribute("departments",departments);
         model.addAttribute("searchEmployeeByDepartmentDto",searchEmployeeByDepartmentDto);
@@ -151,13 +151,13 @@ public class SearchEmployeeController {
 
         }
         try{
-            List<Employee> employees = repo.findByDepartment(searchEmployeeByDepartmentDto.getDepartment());
+            List<Employee> employees = empService.findEmployeeByDepartment(searchEmployeeByDepartmentDto.getDepartment());
             model.addAttribute("employees",employees);
             if (employees.size()!=0){
                 return "search/ShowSearchEmployee";
             }else{
                 String message = "No employee belong to this department";
-                List<Department> departments = departRepo.findAll();
+                List<Department> departments = depService.findAllDepartment();
                 model.addAttribute("message",message);
                 model.addAttribute("departments",departments);
                 return "/search/department";
@@ -169,7 +169,7 @@ public class SearchEmployeeController {
 
 
         }
-        List<Department> departments = departRepo.findAll();
+        List<Department> departments = depService.findAllDepartment();
 
         model.addAttribute("departments",departments);
         return "/search/department";

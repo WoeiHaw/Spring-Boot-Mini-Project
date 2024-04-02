@@ -3,8 +3,8 @@ package com.woeihaw.employee_management.controllers;
 import com.woeihaw.employee_management.models.Employee;
 import com.woeihaw.employee_management.models.Project;
 import com.woeihaw.employee_management.models.ProjectDto;
-import com.woeihaw.employee_management.services.EmployeeRepository;
-import com.woeihaw.employee_management.services.ProjectRepository;
+import com.woeihaw.employee_management.service.EmployeeService;
+import com.woeihaw.employee_management.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,20 +18,20 @@ import java.util.List;
 @RequestMapping("/project")
 public class ProjectController {
     @Autowired
-    private ProjectRepository projectRepo;
+    ProjectService proService;
 
     @Autowired
-    private EmployeeRepository empRepo;
+    EmployeeService empService;
     @GetMapping({"","/"})
     public String showProject(Model model){
-        List<Project> projects =projectRepo.findAll();
+        List<Project> projects =proService.findAllProject();
         model.addAttribute("projects",projects);
         return "list/project";
     }
     @GetMapping("/create")
     public String showCreateProject(Model model){
         ProjectDto projectDto = new ProjectDto();
-        List<Employee> employees = empRepo.findAll();
+        List<Employee> employees = empService.getAllEmployee();
         model.addAttribute("projectDto",projectDto);
         model.addAttribute("employees",employees);
         return "create/CreateProject";
@@ -45,14 +45,14 @@ public class ProjectController {
     ){
 
         if(result.hasErrors()){
-            List<Employee> employees = empRepo.findAll();
+            List<Employee> employees =empService.getAllEmployee();
             model.addAttribute("employees",employees);
             return "create/CreateProject";
         }
         Project project = new Project();
         project.setEmployee(projectDto.getEmployee());
         project.setProjectName(projectDto.getProjectName());
-        projectRepo.save(project);
+        proService.saveProject(project);
         return "redirect:/project";
     }
 
@@ -62,7 +62,7 @@ public class ProjectController {
             @RequestParam int id
     ){
         try{
-            Project project = projectRepo.findById(id).get();
+            Project project = proService.findProjectById(id);
 
 
             ProjectDto projectDto = new ProjectDto();
@@ -70,7 +70,7 @@ public class ProjectController {
             projectDto.setProjectName(project.getProjectName());
             projectDto.setEmployee(project.getEmployee());
 
-            List<Employee> employees = empRepo.findAll();
+            List<Employee> employees =empService.getAllEmployee();
             model.addAttribute("employees",employees);
             model.addAttribute("projectDto",projectDto);
         }catch (Exception e){
@@ -89,13 +89,10 @@ public class ProjectController {
 
     ){
         try{
-            Project project = projectRepo.findById(id).get();
-            System.out.println(projectDto.getProjectId());
-            System.out.println(projectDto.getProjectName());
-            System.out.println(projectDto.getEmployee().getName());
+            Project project = proService.findProjectById(id);
             if(result.hasErrors()){
 
-                List<Employee> employees = empRepo.findAll();
+                List<Employee> employees = empService.getAllEmployee();
                 model.addAttribute("employees",employees);
                 projectDto.setProjectId(project.getProjectId());
                 return "edit/EditProject";
@@ -103,7 +100,7 @@ public class ProjectController {
             project.setProjectName(projectDto.getProjectName());
             project.setEmployee(projectDto.getEmployee());
 
-            projectRepo.save(project);
+           proService.saveProject(project);
 
         }catch (Exception e){
             System.out.println("Exception : " + e.getMessage());
@@ -116,9 +113,9 @@ public class ProjectController {
             @RequestParam int id
     ){
         try {
-            Project project = projectRepo.findById(id).get();
+            Project project = proService.findProjectById(id);
             project.setEmployee(new Employee());
-            projectRepo.delete(project);
+            proService.deleteProject(project);
         }catch(Exception e){
             System.out.println("Exception: " + e.getMessage());
         }

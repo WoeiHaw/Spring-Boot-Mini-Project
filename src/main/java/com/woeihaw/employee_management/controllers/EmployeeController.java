@@ -3,8 +3,8 @@ package com.woeihaw.employee_management.controllers;
 import com.woeihaw.employee_management.models.Department;
 import com.woeihaw.employee_management.models.Employee;
 import com.woeihaw.employee_management.models.EmployeeDto;
-import com.woeihaw.employee_management.services.DepartmentRepository;
-import com.woeihaw.employee_management.services.EmployeeRepository;
+import com.woeihaw.employee_management.service.DepartmentService;
+import com.woeihaw.employee_management.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,24 +17,23 @@ import java.util.List;
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
-    @Autowired
-    private EmployeeRepository empRepo;
 
     @Autowired
-    private DepartmentRepository depRepo;
-
+    private DepartmentService depService;
+    @Autowired
+    private EmployeeService empService ;
     @GetMapping({"","/"})
-    public String showEmployeeList(Model model){
-
-        List<Employee> employees = empRepo.findAll();
+    public String showEmployeeList(Model model) throws InterruptedException {
+        List<Employee> employees= empService.getAllEmployee();
         model.addAttribute("employees",employees);
+
         return "list/employee";
     }
 
     @GetMapping("/create")
     public String showCreatePage(Model model){
         EmployeeDto employeeDto = new EmployeeDto();
-        List<Department> departments = depRepo.findAll();
+        List<Department> departments = depService.findAllDepartment();
         model.addAttribute("employeeDto",employeeDto);
         model.addAttribute("departments",departments);
 
@@ -49,7 +48,7 @@ public class EmployeeController {
     ){
         if (result.hasErrors()){
 
-            List<Department> departments = depRepo.findAll();
+            List<Department> departments = depService.findAllDepartment();
 
             model.addAttribute("departments",departments);
             return "create/createEmployee";
@@ -59,7 +58,7 @@ public class EmployeeController {
 
         employee.setName(employeeDto.getName());
         employee.setPosition(employeeDto.getPosition());
-        empRepo.save(employee);
+        empService.saveEmployee(employee);
         return "redirect:/employee";
     }
 
@@ -67,8 +66,8 @@ public class EmployeeController {
     public String showEditPage(Model model, @RequestParam int id){
 
         try{
-            Employee employee = empRepo.findById(id).get();
-            List<Department> departments = depRepo.findAll();
+            Employee employee = empService.findEmployeeById(id);
+            List<Department> departments = depService.findAllDepartment();
             model.addAttribute("employee",employee);
 
             EmployeeDto employeeDto = new EmployeeDto();
@@ -94,11 +93,11 @@ public class EmployeeController {
             BindingResult result
     ){
         try{
-            Employee employee = empRepo.findById(id).get();
+            Employee employee =empService.findEmployeeById(id);
 //            model.addAttribute("employee",employee);
 
             if(result.hasErrors()){
-                List<Department> departments = depRepo.findAll();
+                List<Department> departments = depService.findAllDepartment();
 
                 model.addAttribute("departments",departments);
 
@@ -107,7 +106,7 @@ public class EmployeeController {
             employee.setName(employeeDto.getName());
             employee.setPosition(employeeDto.getPosition());
             employee.setDepartment(employeeDto.getDepartment());
-            empRepo.save(employee);
+            empService.saveEmployee(employee);
 
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());
@@ -121,9 +120,9 @@ public class EmployeeController {
 
     ){
         try{
-            Employee employee = empRepo.findById(id).get();
+            Employee employee = empService.findEmployeeById(id);
             employee.setDepartment(new Department());
-            empRepo.delete(employee);
+            empService.deleteEmployee(employee);
         }catch(Exception e){
             System.out.println("Exception: " + e.getMessage());
 
