@@ -24,6 +24,7 @@ public class EmployeeController {
     private EmployeeService empService ;
     @GetMapping({"","/"})
     public String showEmployeeList(Model model) throws InterruptedException {
+
         List<Employee> employees= empService.getAllEmployee();
         model.addAttribute("employees",employees);
 
